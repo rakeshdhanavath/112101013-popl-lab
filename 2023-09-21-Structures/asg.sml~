@@ -1,0 +1,74 @@
+signature SORT = sig
+  type t
+  val sort : t list -> t list
+end
+
+signature ORD_KEY =sig
+  type ord_key = int
+        
+
+  val compare : ord_key * ord_key -> order
+        
+
+end 
+
+functor QSort ( O : ORD_KEY ) : SORT = struct
+  type t = O.ord_key
+                
+  fun helper u v = if (O.compare(u,v) = LESS) then false
+                  else true
+  fun sort [] = []
+    | sort (u::us) =
+                        let
+                            val (s, b) = List.partition(fn temp => helper u temp) us
+                        in
+                            sort s @ [u] @ sort b
+                        end
+
+end
+structure IntOrd : ORD_KEY =struct
+  type ord_key = int
+  fun  compare(x,y) = if x < y then LESS
+                 else if x > y then GREATER
+                 else EQUAL
+ end
+structure Quick_sort = QSort(IntOrd)
+
+(*-----------*)
+
+signature SORT =
+sig
+  type t
+  val sort : t list -> t list
+end
+
+signature ORD_KEY =
+sig
+  type ord_key
+  val compare : ord_key * ord_key -> order
+end
+
+functor QSort (O : ORD_KEY) : SORT =
+struct
+  type t = O.ord_key
+
+  fun sort [] = []
+    | sort (pivot::xs) =
+      let
+        val (smaller, greater) = List.partition (fn x => O.compare(x, pivot) = LESS) xs
+      in
+        sort smaller @ [pivot] @ sort greater
+      end
+end
+
+structure IntOrd : ORD_KEY =
+struct
+  type ord_key = int
+  fun compare (x, y) =
+    if x < y then LESS
+    else if x > y then GREATER
+    else EQUAL
+end
+
+structure IntSort = QSort(IntOrd)
+
