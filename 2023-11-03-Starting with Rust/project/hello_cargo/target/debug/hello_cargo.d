@@ -1,1 +1,0 @@
-/home2/student/code/git/112101013-popl/2023-11-03-Starting\ with\ Rust/project/hello_cargo/target/debug/hello_cargo: /home2/student/code/git/112101013-popl/2023-11-03-Starting\ with\ Rust/project/hello_cargo/src/main.rs
